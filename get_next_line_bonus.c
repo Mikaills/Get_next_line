@@ -1,20 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahkaya <bahkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:13:24 by bahkaya           #+#    #+#             */
-/*   Updated: 2025/07/21 17:10:02 by bahkaya          ###   ########.fr       */
+/*   Updated: 2025/07/21 17:13:34 by bahkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
-// use malloc to read the files
-// u cannot use solely with *
-// Learn why doesn this happen
 
 size_t	ft_strlen(char *str)
 {
@@ -62,15 +59,15 @@ char	*get_line(char *temp)
 
 char	*get_next_line(int fd)
 {
-	static char	*temp;
+	static char	*temp[4096];
 	char		*buffer;
 	ssize_t		total_read;
 	char		*line;
 
-	if (!temp)
-		temp = ft_strdup("");
+	if (!temp[fd])
+		temp[fd] = ft_strdup("");
 	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	while (!ft_strchr(temp, '\n'))
+	while (!ft_strchr(temp[fd], '\n'))
 	{
 		total_read = read(fd, buffer, BUFFER_SIZE);
 		if (total_read == -1)
@@ -78,10 +75,10 @@ char	*get_next_line(int fd)
 		if (total_read == 0)
 			break ;
 		buffer[total_read] = '\0';
-		temp = ft_strjoin(temp, buffer);
+		temp[fd] = ft_strjoin(temp[fd], buffer);
 	}
 	free(buffer);
-	line = get_line(temp);
-	temp = new_temp(temp);
+	line = get_line(temp[fd]);
+	temp[fd] = new_temp(temp[fd]);
 	return (line);
 }
