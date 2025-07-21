@@ -6,15 +6,11 @@
 /*   By: bahkaya <bahkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:13:24 by bahkaya           #+#    #+#             */
-/*   Updated: 2025/07/21 17:10:02 by bahkaya          ###   ########.fr       */
+/*   Updated: 2025/07/21 17:36:24 by bahkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-// use malloc to read the files
-// u cannot use solely with *
-// Learn why doesn this happen
 
 size_t	ft_strlen(char *str)
 {
@@ -70,6 +66,8 @@ char	*get_next_line(int fd)
 	if (!temp)
 		temp = ft_strdup("");
 	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
 	while (!ft_strchr(temp, '\n'))
 	{
 		total_read = read(fd, buffer, BUFFER_SIZE);
